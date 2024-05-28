@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import {
     Container,
     Content,
@@ -8,14 +8,19 @@ import {
 import ContentHeader from '../../components/ContentHeader';
 import SelectInput from '../../components/SelectInput';
 import HistoryFinanceCard from '../../components/HistoryFinanceCard';
+import MovimentsFormated from '../../models/MovimentsFormated';
 import { useParams } from 'react-router-dom';
 
-// import gains from "../../repositories/gains";
-// import expenses from "../../repositories/expenses";
+import gains from "../../repositories/gains";
+import expenses from "../../repositories/expenses";
+import Moviments from '../../models/Moviments';
+import fortmatCurrency from '../../utils/formatCurrency';
+import fortmatDate from '../../utils/formatDate';
 
 
 const List: React.FC = () => {
     const { type }= useParams();
+    const [ moviments, setMoviments ] = useState<Moviments[]>([]);
 
     const typeBalance = useMemo(() => {
         return type === 'entry-balance' ? {
@@ -25,6 +30,10 @@ const List: React.FC = () => {
             title: 'Saídas',
             lineColor: '#E44C4E'
         };
+    },[type]);
+
+    const listMoviments = useMemo(() => {
+        return type === 'entry-balance' ? gains : expenses;
     },[type]);
 
     const months = [
@@ -38,6 +47,23 @@ const List: React.FC = () => {
         {value: 2023, label: 2023},
         {value: 2022, label: 2022},
     ];
+
+    useEffect(() => {
+        const response: Moviments[] = listMoviments.map(item => {
+            return {
+                description: item.description,
+                amount: fortmatCurrency(Number(item.amount), item.typeCurrency.toLocaleUpperCase()),
+                date: fortmatDate(item.date),
+                frequency: item.frequency,
+                tagColor: item.frequency === 'recorrente' ? '#4E41F0' : '#E44C4E',
+                type: item.type,
+                typeCurrency: item.typeCurrency
+            }
+        })
+
+        setMoviments(response);        
+    },[moviments]);
+
     return(
         <Container>
             <ContentHeader title={typeBalance.title} lineColor={typeBalance.lineColor}>
@@ -62,12 +88,18 @@ const List: React.FC = () => {
             </Filters>
 
             <Content>
-                <HistoryFinanceCard
-                tagColor={'#E44C4E'}
-                title={'Conta de Luz'}
-                subTitle={'26/03/2024'}
-                amount={'R$ 130,00'}
-                />
+                {
+                    moviments.map((item, index) => (
+                        <HistoryFinanceCard
+                            key={index}
+                            tagColor={item.tagColor}
+                            title={item.description}
+                            subTitle={item.date}
+                            amount={item.amount}
+                        />
+                    ))
+                    
+                }
             </Content>
         </Container>
     );
