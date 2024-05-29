@@ -8,7 +8,6 @@ import {
 import ContentHeader from '../../components/ContentHeader';
 import SelectInput from '../../components/SelectInput';
 import HistoryFinanceCard from '../../components/HistoryFinanceCard';
-import MovimentsFormated from '../../models/MovimentsFormated';
 import { useParams } from 'react-router-dom';
 
 import gains from "../../repositories/gains";
@@ -21,6 +20,8 @@ import fortmatDate from '../../utils/formatDate';
 const List: React.FC = () => {
     const { type }= useParams();
     const [ moviments, setMoviments ] = useState<Moviments[]>([]);
+    const [ monthSelected, setMonthSelected ] = useState<string>(String(new Date().getMonth() + 1));
+    const [ yearSelected, setYearSelected ] = useState<string>(String(new Date().getFullYear()));
 
     const typeBalance = useMemo(() => {
         return type === 'entry-balance' ? {
@@ -37,19 +38,33 @@ const List: React.FC = () => {
     },[type]);
 
     const months = [
+        {value: 4, label: 'Abril'},
+        {value: 5, label: 'Maio'},
+        {value: 6, label: 'Junho'},
         {value: 7, label: 'Julho'},
         {value: 8, label: 'Agosto'},
         {value: 9, label: 'Setembro'},
     ];
 
     const years = [
-        {value: 2024, label: 2024},
-        {value: 2023, label: 2023},
+        {value: 2020, label: 2020},
+        {value: 2021, label: 2021},
         {value: 2022, label: 2022},
+        {value: 2023, label: 2023},
+        {value: 2024, label: 2024},
     ];
 
     useEffect(() => {
-        const response: Moviments[] = listMoviments.map(item => {
+
+        const filteredDate: Moviments[] = listMoviments.filter(item => {
+            const date = new Date(item.date);
+            const month  = String(date.getMonth() + 1);
+            const year = String(date.getFullYear());
+            
+            return month === monthSelected && year === yearSelected;
+        });
+
+        const formattedDate = filteredDate.map(item => {
             return {
                 description: item.description,
                 amount: fortmatCurrency(Number(item.amount), item.typeCurrency.toLocaleUpperCase()),
@@ -61,14 +76,14 @@ const List: React.FC = () => {
             }
         })
 
-        setMoviments(response);        
-    },[moviments]);
+        setMoviments(formattedDate);        
+    },[ monthSelected, yearSelected]);
 
     return(
         <Container>
             <ContentHeader title={typeBalance.title} lineColor={typeBalance.lineColor}>
-                <SelectInput options={months}/>
-                <SelectInput options={years}/>
+                <SelectInput defaultValue={monthSelected} options={months} onChange={(e) => setMonthSelected(e.target.value)}/>
+                <SelectInput defaultValue={yearSelected} options={years} onChange={(e) => setYearSelected(e.target.value)}/>
             </ContentHeader>
 
             <Filters>
