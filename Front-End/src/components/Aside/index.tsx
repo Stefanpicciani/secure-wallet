@@ -16,6 +16,7 @@ import {
     MdArrowUpward,
     MdExitToApp
  } from  'react-icons/md';
+import { Link } from 'react-router-dom';
 
 const Aside: React.FC = () => {
     return(
@@ -25,6 +26,36 @@ const Aside: React.FC = () => {
                 <Title>My Wallet</Title>
             </Header>
 
+            {/* <MenuContainer>
+                <Link to={"/dashboard"}>
+                    <MenuItemLink>
+                        <MdDashboard />
+                        Dashboard
+                    </MenuItemLink>
+                </Link>
+                
+                <Link to={"/list/entry-balance"}>
+                    <MenuItemLink>
+                        <MdArrowUpward />
+                        Entradas
+                    </MenuItemLink>
+                </Link>
+                
+                <Link to={"/list/exit-balance"}>
+                    <MenuItemLink>
+                        <MdArrowDownward />
+                        Saídas
+                    </MenuItemLink>
+                </Link>
+                
+                <Link to={"#"}>
+                    <MenuItemLink>
+                        <MdExitToApp />
+                        Sair
+                    </MenuItemLink>
+                </Link>
+                
+            </MenuContainer> */}
             <MenuContainer>
                 <MenuItemLink href="/dashboard">
                     <MdDashboard />

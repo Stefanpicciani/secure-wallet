@@ -1,7 +1,6 @@
 import React from "react";
 import {
-    createBrowserRouter,
-    useParams,    
+    createBrowserRouter,    
   } from "react-router-dom";
 
 import Dashboard from "../pages/Dashboard";
@@ -19,7 +18,7 @@ const AppRoutes = createBrowserRouter([
         element: <Dashboard />,        
     },
     {        
-        path: "list/:type",
+        path: "list/:movimentType",
         element: <List />,            
     }
 ]);
