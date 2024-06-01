@@ -10,4 +10,7 @@ export default <Moviments[]> [
   { "description": "Salário",     "amount": "2500.18", "type": "entrada", "frequency": "recorrente", "date": "2020-04-10",  "typeCurrency" : "EUR"}, 
   { "description": "Salário",     "amount": "2500.15", "type": "entrada", "frequency": "recorrente", "date": "2020-05-10",  "typeCurrency" : "EUR"}, 
   { "description": "Salário",     "amount": "2500.12", "type": "entrada", "frequency": "recorrente", "date": "2020-06-10",  "typeCurrency" : "EUR"}, 
+  { "description": "Salário",     "amount": "2500.12", "type": "entrada", "frequency": "recorrente", "date": "2024-04-10",  "typeCurrency" : "EUR"}, 
+  { "description": "Salário",     "amount": "2500.12", "type": "entrada", "frequency": "recorrente", "date": "2024-05-10",  "typeCurrency" : "EUR"}, 
+  { "description": "Salário",     "amount": "2500.12", "type": "entrada", "frequency": "recorrente", "date": "2024-07-10",  "typeCurrency" : "EUR"}, 
   { "description": "Salário",     "amount": "2500.00", "type": "entrada", "frequency": "recorrente", "date": "2020-07-10",  "typeCurrency" : "EUR"}]

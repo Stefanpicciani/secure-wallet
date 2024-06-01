@@ -15,7 +15,7 @@ import expenses from "../../repositories/expenses";
 import Moviments from '../../models/Moviments';
 import fortmatCurrency from '../../utils/formatCurrency';
 import fortmatDate from '../../utils/formatDate';
-
+import listOfMonths from '../../utils/months';
 
 const List: React.FC = () => {
     const { type }= useParams();
@@ -37,22 +37,41 @@ const List: React.FC = () => {
         return type === 'entry-balance' ? gains : expenses;
     },[type]);
 
-    const months = [
-        {value: 4, label: 'Abril'},
-        {value: 5, label: 'Maio'},
-        {value: 6, label: 'Junho'},
-        {value: 7, label: 'Julho'},
-        {value: 8, label: 'Agosto'},
-        {value: 9, label: 'Setembro'},
-    ];
 
-    const years = [
-        {value: 2020, label: 2020},
-        {value: 2021, label: 2021},
-        {value: 2022, label: 2022},
-        {value: 2023, label: 2023},
-        {value: 2024, label: 2024},
-    ];
+    const years = useMemo(() => {
+        let uniqueYears: number[] = [];
+
+        
+        listMoviments.forEach(item => {
+            console.log('item', item, 'item.date' , item.date)
+
+            const date = new Date(item.date);
+            const year = date.getFullYear();
+
+            if(!uniqueYears.includes(year)){
+                uniqueYears.push(year)
+            }
+        });
+
+        return uniqueYears.map(year => {
+            return {
+                value: year,
+                label: year,
+            }             
+        });
+
+    },[]);
+
+    
+    const months = useMemo(() => {
+           return listOfMonths.map((month, index) => {
+              return {
+                value: index + 1,
+                label: month
+              }
+           });
+
+    },[])
 
     useEffect(() => {
 
