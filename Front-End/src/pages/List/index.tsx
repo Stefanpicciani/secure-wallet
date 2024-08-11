@@ -25,7 +25,7 @@ const List: React.FC = () => {
     const typeBalance = useMemo(() => {
         return movimentType === 'entry-balance' ? {
             title: 'Entradas',
-            lineColor: '#F7931B',
+            lineColor: '#4E41F0',
             listMoviments: gains
         } : {
             title: 'Saídas',
@@ -93,7 +93,7 @@ const List: React.FC = () => {
         try {
             const parseMonth = Number(month);
             setMonthSelected(parseMonth);
-        } catch(error){
+        } catch{
             throw new Error('invalid month value. Is accept interger number.');
         }
     }
@@ -102,7 +102,7 @@ const List: React.FC = () => {
         try {
             const parseYear = Number(year);
             setYearSelected(parseYear);
-        } catch(error){
+        } catch{
             throw new Error('invalid year value. Is accept interger number.');
         }
     }
